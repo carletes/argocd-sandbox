@@ -1,0 +1,16 @@
+---
+resources:
+  - https://raw.githubusercontent.com/argoproj/argo-cd/refs/tags/v2.14.5/manifests/install.yaml
+  - ingress-route.yaml
+
+namespace: argocd
+
+patches:
+  - target:
+      kind: ConfigMap
+      name: argocd-cmd-params-cm
+    patch: |
+      - op: add
+        path: /data
+        value:
+          server.insecure: "true"

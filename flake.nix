@@ -14,8 +14,10 @@
       perSystem = { pkgs, ... }: {
         devShells.default = pkgs.mkShell {
           buildInputs = with pkgs; [
+            argocd
             k3d
             kubectl
+            kustomize
             yq
           ];
 
