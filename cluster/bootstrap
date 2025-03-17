@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -eux -o pipefail
+
+here=$(cd "$(dirname "$0")" && pwd)
+kubeconfig_yaml=${here}/kubeconfig.yaml
+cluster_name=$(yq --raw-output .metadata.name < "${here}/k3d.yaml")
+
+"${here}/teardown"
+
+k3d cluster create "$cluster_name" \
+  --verbose \
+  --config "${here}/k3d.yaml"
+k3d kubeconfig get "$cluster_name" > "$kubeconfig_yaml"

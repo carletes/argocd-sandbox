@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+set -eu -o pipefail
+
+here=$(cd "$(dirname "$0")" && pwd)
+kubeconfig_yaml=${here}/kubeconfig.yaml
+cluster_name=$(yq --raw-output .metadata.name < "${here}/k3d.yaml")
+
+k3d cluster delete "$cluster_name" --verbose
+rm -f "$kubeconfig_yaml"

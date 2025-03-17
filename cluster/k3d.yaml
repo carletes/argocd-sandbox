@@ -1,0 +1,29 @@
+---
+apiVersion: k3d.io/v1alpha5
+kind: Simple
+metadata:
+  name: argocd-sandbox
+agents: 4
+image: docker.io/rancher/k3s:v1.31.6-k3s1
+options:
+  k3d:
+    wait: true
+  kubeconfig:
+    updateDefaultKubeconfig: false
+    switchCurrentContext: false
+ports:
+  - port: 127.0.2.11:80:80
+    nodeFilters:
+      - loadbalancer
+  - port: 127.0.2.11:443:443
+    nodeFilters:
+      - loadbalancer
+registries:
+  create:
+    image: ligfx/k3d-registry-dockerd:v0.8
+    proxy:
+      remoteURL: "*"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+servers: 1
+subnet: auto
